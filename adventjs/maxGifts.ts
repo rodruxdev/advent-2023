@@ -1,12 +1,21 @@
 function maxGifts(houses: Array<number>): number {
   const dp = houses.slice(0, 2);
   for (const house of houses.slice(2)) {
-    dp.push(Math.max(dp[dp.length - 1], dp[dp.length - 2] + house));
+    dp.push(Math.max(...dp.slice(0, -1)) + house);
   }
-  return dp[dp.length - 1];
+  if (dp.length > 3) {
+    if (dp[dp.length - 1] > dp[dp.length - 2]) {
+      return dp[dp.length - 1];
+    } else {
+      return dp[dp.length - 2];
+    }
+  } else {
+    return dp[dp.length - 1];
+  }
 }
 
 console.log(maxGifts([2, 4, 2])); // 4 (4)
+console.log(maxGifts([1, 2, 3, 1])); // 4 (4)
 console.log(maxGifts([5, 1, 1, 5])); // 10 (5 + 5)
 console.log(maxGifts([4, 1, 1, 4, 2, 1])); // 9 (4 + 4 + 1)
 console.log(maxGifts([2, 7, 9, 3, 1, 2])); // 9 (4 + 4 + 1)
